@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'FoneMonkeyMediaPlayer' target in the 'FoneMonkeyMediaPlayer' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
