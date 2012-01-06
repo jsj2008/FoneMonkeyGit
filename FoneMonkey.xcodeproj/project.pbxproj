@@ -29,9 +29,6 @@
 				D34D974612232129001D0B47 /* Copy Headers */,
 				15B30E1413DB990200A31924 /* Copy Bin */,
 				D30FA7811223303D00796ABE /* Build Library */,
-				D34D974A122321B1001D0B47 /* Run Doxygen */,
-				15D4F16812FE6CFA00F38113 /* Run JSDoc */,
-				D34D974C122321CA001D0B47 /* Build Zip File */,
 			);
 			dependencies = (
 				151F3C2612F216020067A732 /* PBXTargetDependency */,
@@ -609,7 +606,6 @@
 		44C700281475771400A91333 /* UINavigationController+FMReady.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FMReady.h"; sourceTree = "<group>"; };
 		44C700291475771400A91333 /* UINavigationController+FMReady.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FMReady.m"; sourceTree = "<group>"; };
 		44C7011F1476CE0E00A91333 /* libFoneMonkeyWebView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoneMonkeyWebView.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		44C701231476CE0E00A91333 /* FoneMonkeyWebView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoneMonkeyWebView-Prefix.pch"; sourceTree = "<group>"; };
 		44F3CEB11423F19300D3C408 /* FMObjConnect.jslib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FMObjConnect.jslib; sourceTree = "<group>"; };
 		44F3CEB31423F1B700D3C408 /* FMObjConnect.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FMObjConnect.html; sourceTree = "<group>"; };
 		44F3CEBA1423F5B800D3C408 /* FMConnectWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMConnectWebView.h; sourceTree = "<group>"; };
@@ -868,7 +864,6 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				D34D965A12231277001D0B47 /* Apple Internal */,
 				446F15BB1427F1CE0097E32A /* FoneMonkeyMediaPlayer */,
-				44C701211476CE0E00A91333 /* FoneMonkeyWebView */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -1107,22 +1102,6 @@
 				446F1EDC142A3C130097E32A /* qunit.jslib */,
 			);
 			name = QUnit;
-			sourceTree = "<group>";
-		};
-		44C701211476CE0E00A91333 /* FoneMonkeyWebView */ = {
-			isa = PBXGroup;
-			children = (
-				44C701221476CE0E00A91333 /* Supporting Files */,
-			);
-			path = FoneMonkeyWebView;
-			sourceTree = "<group>";
-		};
-		44C701221476CE0E00A91333 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				44C701231476CE0E00A91333 /* FoneMonkeyWebView-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		44F3CEB01423F16500D3C408 /* FMObjConnect */ = {
@@ -1506,20 +1485,6 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"************ Prepare ****************\"\nrm -rf ${PROJECT_DIR}/Dist\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/lib\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/docs\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/include\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/resources\n";
 		};
-		15D4F16812FE6CFA00F38113 /* Run JSDoc */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run JSDoc";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export JSDOCDIR=$FM_JSDOC_LOC\nexport JSDOCTEMPLATEDIR=$JSDOCDIR/templates/jsdoc\n$JSDOCDIR/jsrun.sh  FoneMonkey.js -d=${PROJECT_DIR}/Dist/JSDoc";
-		};
 		D30FA7811223303D00796ABE /* Build Library */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1532,7 +1497,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -x";
-			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit FoneMonkeyMediaPlayer FoneMonkeyWebView\ndo\n\t# for version in 3.2 4.0 4.1 4.2\n\tfor version in 5.0\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\n        for target in FoneMonkeyMediaPlayer\n        do\n            lipo -output ${PROJECT_DIR}/Dist/FoneMonkey/extralibs/lib${target}.${FM_VERSION}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n        done\n        for target in FoneMonkeyWebView\n        do\n            lipo -output ${PROJECT_DIR}/Dist/FoneMonkey/extralibs/lib${target}.${FM_VERSION}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n        done\n        for target in FoneMonkey FoneMonkeyOCUnit\n        do\n            lipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${FM_VERSION}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n        done\n\tdone\ndone";
+			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit FoneMonkeyMediaPlayer FoneMonkeyWebView\ndo\n\t# for version in 3.2 4.0 4.1 4.2\n\tfor version in 5.0\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration `echo ${CONFIGURATION} | tr '[A-Z]' '[a-z]'`\n\t\tdone\n\n        for target in FoneMonkeyMediaPlayer\n        do\n            lipo -output ${PROJECT_DIR}/Dist/FoneMonkey/extralibs/lib${target}.${FM_VERSION}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n        done\n        for target in FoneMonkeyWebView\n        do\n            lipo -output ${PROJECT_DIR}/Dist/FoneMonkey/extralibs/lib${target}.${FM_VERSION}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n        done\n        for target in FoneMonkey FoneMonkeyOCUnit\n        do\n            lipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${FM_VERSION}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n        done\n\tdone\ndone";
 		};
 		D34D968212231B45001D0B47 /* Create Buildstamp */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1574,34 +1539,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \"************ Prepare ****************\"\nrm -rf ${PROJECT_DIR}/Dist\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/lib\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/extralibs\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/docs\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/include\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/resources\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/bin";
-		};
-		D34D974A122321B1001D0B47 /* Run Doxygen */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Doxygen";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo \"**************** Doxygen *******************\"\n$FM_DOXYGEN_LOC/doxygen misc/doxygen/doxyfile";
-		};
-		D34D974C122321CA001D0B47 /* Build Zip File */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Build Zip File";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo \"************ ZIP ************\"\ncd ${PROJECT_DIR}/Dist/FoneMonkey\nzip -r extralibs extralibs\nrm -rf extralibs\ncd ..\nrm -f FoneMonkey.zip\nzip -r FoneMonkey FoneMonkey";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1823,7 +1760,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FoneMonkeyWebView/FoneMonkeyWebView-Prefix.pch";
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1841,7 +1778,7 @@
 				DSTROOT = /tmp/FoneMonkeyWebView.dst;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FoneMonkeyWebView/FoneMonkeyWebView-Prefix.pch";
+				GCC_PREFIX_HEADER = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1935,7 +1872,7 @@
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
-				SYMROOT = "";
+				SYMROOT = build;
 				ZERO_LINK = NO;
 			};
 			name = Release;
