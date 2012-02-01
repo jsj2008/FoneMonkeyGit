@@ -369,21 +369,31 @@ NSArray* emptyArray;
 
 - (void) play:(BOOL)waitUntilDone {
 	state = FMStatePlaying;
-	NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(runCommands) object:nil];
-	[thread start];
-	if (waitUntilDone) {
-        if (!getenv("FM_ENABLE_QUNIT")) { // Skip loop if JS test running, otherwise it loops forever
-            while (![thread isFinished]) {
-            	usleep(100000);
+    if (!getenv("FM_DISABLE_THREADS"))
+    {
+	    NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(runCommands) object:nil];
+	    [thread start];
+	    if (waitUntilDone) {
+            if (!getenv("FM_ENABLE_QUNIT")) { // Skip loop if JS test running, otherwise it loops forever
+                while (![thread isFinished]) {
+                	usleep(100000);
+                }
+                
+                while (isDriving) {
+                    usleep(100000);
+                }
+            } else {
+                [_console hideConsoleQunit];
             }
-            
-            while (isDriving) {
-                usleep(100000);
-            }
-        } else {
+	    }
+    }
+    else
+    {
+        [self runCommands];
+        if (getenv("FM_ENABLE_QUNIT")) {
             [_console hideConsoleQunit];
         }
-	}
+    }
     
 	return;
 }
@@ -430,9 +440,9 @@ NSArray* emptyArray;
 
 
 - (void) playingDone {
+    state = FMStateSuspended;
+    isDriving = NO;
     if (!getenv("FM_SHOW_CONSOLE_ALL_TIME")) {
-	    state = FMStateSuspended;
-        isDriving = NO;
         if (getenv("FM_ENABLE_QUNIT"))
         {
             [_console showConsoleQunit];
@@ -540,7 +550,9 @@ NSArray* emptyArray;
 
 - (void) runCommandsStartingFrom:(NSInteger)start numberOfCommands:(NSInteger)count{
 	// We're a thread
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//    NSAutoreleasePool *pool;
+//    if (!getenv("FM_DISABLE_THREADS"))
+//	    pool = [[NSAutoreleasePool alloc] init];
 	
 	BOOL failure = NO;
 	int i;	
@@ -728,7 +740,8 @@ NSArray* emptyArray;
     //if (csvIndex == [csvData count])
         //csvIndex = 0;
 
-	[pool release];  
+//    if (!getenv("FM_DISABLE_THREADS"))
+//	    [pool drain];  
 }
 
 - (void) playbackMonkeyEvent:(FMCommandEvent*)command {

@@ -166,7 +166,7 @@
 - (id)initWithTouch:(UITouch *)touch
 {
 	CGPoint location = [touch locationInView:touch.window];
-	GSEventProxy *gsEventProxy = [[GSEventProxy alloc] init];
+	GSEventProxy *gsEventProxy = [[[GSEventProxy alloc] init] autorelease];
 	gsEventProxy->x1 = location.x;
 	gsEventProxy->y1 = location.y;
 	gsEventProxy->x2 = location.x;

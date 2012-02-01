@@ -8,7 +8,7 @@
 	<string>NONE</string>
 	<key>FM_ENABLE_XML_REPORT</key>
 	<string>YES</string>
-    <key>FM_SHOW_CONSOLE_ALL_TIME</key>
-    <string>YES</string>
+	<key>FM_SHOW_CONSOLE_ALL_TIME</key>
+	<string>YES</string>
 </dict>
 </plist>

@@ -85,11 +85,16 @@
 //		}
 		NSInteger row = [event.args count] > 0 ? [[event.args objectAtIndex:0] intValue] : 0;
 		NSInteger section = [event.args count] > 1 ? [[event.args objectAtIndex:1] intValue] : 0;
-
-
-		NSIndexPath* path = [NSIndexPath indexPathForRow:row inSection:section];
-
-		[self scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        
+        if (row == -1 && section == -1 && [[self delegate] respondsToSelector:@selector(startUpdate)])
+        {
+            [[self delegate] startUpdate];
+        }
+        else
+        {
+            NSIndexPath* path = [NSIndexPath indexPathForRow:row inSection:section];
+            [self scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }
 	} else if ([event.command isEqualToString:FMCommandDelete]) {
 //		if ([event.args count] > 2) {
 //			event.lastResult = @"Requires 0, 1, or 2 arguments, but has %d", [event.args count];

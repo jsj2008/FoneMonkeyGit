@@ -26,18 +26,17 @@
 
 - (void) runTests:(SenTestSuite*) suite {
 	// We're a thread
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
 	SenTestRun* run = [suite run];
 	if (getenv("FM_ENABLE_AUTOEXIT") && strcmp(getenv("FM_ENABLE_AUTOEXIT"),"NO")) {
 		int exitStatus = (([run totalFailureCount] == 0U) ? 0 : 1);
 		exit(exitStatus);
 	}
-	[pool release];	
+    [pool release];	
 }	
 
 - (void) runTestSuite:(SenTestSuite*)suite {
-	[NSThread detachNewThreadSelector:@selector(runTests:) toTarget:self withObject:suite];
-	
+        [NSThread detachNewThreadSelector:@selector(runTests:) toTarget:self withObject:suite];
 }
 
 - (void) runAllTests {

@@ -446,6 +446,7 @@ static NSInteger foundSoFar;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM-dd-HH-mm-ss-SSS"];
     NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+    [dateFormatter release];
     return dateString;
 }
 

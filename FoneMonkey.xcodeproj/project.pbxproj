@@ -1511,7 +1511,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"#define FM_BUILD_STAMP @\\\"BUILD `date +%y%m%d.%H%M`\\\"\" > FMBuildStampDefines.h\necho \"#define FM_VERSION @\\\"${FM_VERSION}\\\"\" >> FMBuildStampDefines.h\necho \"#define FM_MINOR_VERSION @\\\"${FM_MINOR_VERSION}\\\"\" >> FMBuildStampDefines.h\n\n";
+			shellScript = "#echo \"#define FM_BUILD_STAMP @\\\"BUILD `date +%y%m%d.%H%M`\\\"\" > FMBuildStampDefines.h\n#echo \"#define FM_VERSION @\\\"${FM_VERSION}\\\"\" >> FMBuildStampDefines.h\n#echo \"#define FM_MINOR_VERSION @\\\"${FM_MINOR_VERSION}\\\"\" >> FMBuildStampDefines.h\n\n";
 		};
 		D34D973412232052001D0B47 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

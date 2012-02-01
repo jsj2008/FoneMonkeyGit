@@ -347,7 +347,7 @@ use_default:;
 
 + (NSString*) objcCommandEvent:(FMCommandEvent*)command {
 	
-	NSMutableString* args = [[NSMutableString alloc] init];
+	NSMutableString* args = [[[NSMutableString alloc] init] autorelease];
 	if (!command.args) {
 		[args setString:@"nil"];
 	} else {
@@ -365,7 +365,7 @@ use_default:;
 
 + (NSString*) qunitCommandEvent:(FMCommandEvent*)command {
 	
-	NSMutableString* args = [[NSMutableString alloc] init];
+	NSMutableString* args = [[[NSMutableString alloc] init] autorelease];
 	if (!command.args) {
 		[args setString:@"null"];
 	} else {
